@@ -4,7 +4,7 @@ import numpy as np
 import torch
 from glob import glob
 import torch.nn as nn
-from app import os
+import os
 from collections import OrderedDict
 import matplotlib.pyplot as plt
 

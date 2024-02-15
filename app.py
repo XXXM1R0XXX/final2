@@ -30,7 +30,12 @@ def get_q():
     # # Закрытие соединения с базой данных SQLite
     # cur.close()
     # conn.close()
-    # print(records[0]["account_id"])
+    print(records)
+    records[0]["data"]=eval(records[0]["data"])
+    # print(records[0]["data"]['NORM'])
+    records[0]["data"]={key: int(float(value)*100) for key, value in records[0]["data"].items() if float(value)>0 }
+    records[0]["data"]=dict(sorted(records[0]["data"].items()))
+    print(records[0]["data"])
 
     return records
 
@@ -127,4 +132,5 @@ def profile_id(id):
 
 
 if __name__ == '__main__':
+    # app.run()
     app.run(host='0.0.0.0', port="80")
