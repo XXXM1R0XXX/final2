@@ -15,26 +15,29 @@ app = Flask(__name__)
 #     # Другие задачи
 # ]
 # tasks *= 10
-def get_q():
+def get_q(is_1):
     conn = sqlite3.connect('Users.db')
-    df = pd.read_sql_query("SELECT * FROM Queue", conn)
+    df = pd.read_sql_query(f"SELECT * FROM Queue WHERE finished={0 if is_1 else 1}", conn)
 
     # Преобразование DataFrame в массив словарей
     records = df.to_dict(orient='records')
     cur = conn.cursor()
+    if(len(records) == 0):
+        return []
     for i in records:
         cur.execute(('''SELECT name,surname FROM Auth WHERE id = '{}';''').format(i["account_id"]))
-        skin=cur.fetchall()
+        skin = cur.fetchall()
         print(skin)
-        i["name"]=skin[0][0]+" "+skin[0][1]
+        i["name"] = skin[0][0] + " " + skin[0][1]
     # # Закрытие соединения с базой данных SQLite
     # cur.close()
     # conn.close()
     print(records)
-    records[0]["data"]=eval(records[0]["data"])
-    # print(records[0]["data"]['NORM'])
-    records[0]["data"]={key: int(float(value)*100) for key, value in records[0]["data"].items() if float(value)>0 }
-    records[0]["data"]=dict(sorted(records[0]["data"].items()))
+    for record in records:
+        record["data"] = eval(record["data"])
+        # print(records[0]["data"]['NORM'])
+        record["data"] = {key: int(float(value) * 100) for key, value in record["data"].items() if float(value) > 0}
+        record["data"] = dict(sorted(record["data"].items()))
     print(records[0]["data"])
 
     return records
@@ -45,8 +48,8 @@ models = load_models("./models/", ECGNet)
 
 @app.route('/', methods=['GET', 'POST'])
 def task_list():
-    tasks = get_q()
-    return render_template('main.html', tasks=tasks, id=1)
+    tasks = get_q(True)
+    return render_template('main.html',tasks=tasks,id=tasks[0]['id'])
 
 
 @app.route('/registration', methods=['GET', 'POST'])
@@ -100,7 +103,17 @@ def login():
 
 @app.route('/<int:id>', methods=['GET', 'POST'])
 def get_id(id):
-    tasks = get_q()
+    if request.method == 'POST':
+        conclusion = request.form.get('conclusion')
+        print(conclusion)
+        conn = sqlite3.connect('Users.db')
+        cur = conn.cursor()
+        cur.execute('''UPDATE Queue SET finished = ?, conclusion = ? WHERE id = ?;''', (1, conclusion, id))
+        cur.close()
+        conn.commit()
+        conn.close()
+        return redirect(url_for("task_list"))
+    tasks = get_q(True)
     return render_template('main.html', tasks=tasks, id=id)
 
 
@@ -111,11 +124,11 @@ def profile_id(id):
         data = np.load(file)
 
         pred = json.dumps(get_predictions(data, models))
-
+        print(pred)
         conn = sqlite3.connect('Users.db')
         cur = conn.cursor()
         cur.execute(
-            '''INSERT INTO Queue VALUES(NULL,'{}','{}','{}');'''.format(id, pred, datetime.now().strftime("%d-%m-%Y")))
+            '''INSERT INTO Queue VALUES(NULL,'{}','{}','{}',0,NULL);'''.format(id, pred, datetime.now().strftime("%d-%m-%Y")))
         conn.commit()
         new_id = cur.lastrowid
         cur.close()
@@ -128,9 +141,21 @@ def profile_id(id):
         p += f"/{new_id}.png"
         to_img(data, p)
         return redirect(url_for(f"profile_id", id=id))
-    return render_template('Upload.html')
+    tasks=get_q(False)
+    return render_template('Upload.html',tasks=tasks)
+
+
+@app.route('/<int:account_id>/<int:id>', methods=['GET', 'POST'])
+def profile_account_id(account_id, id):
+    tasks = get_q(False)
+    conn = sqlite3.connect('Users.db')
+    cur = conn.cursor()
+    cur.execute(('''SELECT conclusion FROM Queue WHERE id = '{}';''').format(id))
+    stroka=cur.fetchone()[0];
+    print(stroka)
+    return render_template('Upload.html', tasks=tasks,id=id,stroka=stroka)
 
 
 if __name__ == '__main__':
     # app.run()
-    app.run(host='0.0.0.0', port="80")
+    app.run(host='0.0.0.0', port="334")

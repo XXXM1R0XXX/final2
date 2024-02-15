@@ -1,19 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link href="/static/sidebars.css" rel="stylesheet">
-    <link href="../static/assets/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-<main{% block body_class %}{% endblock %}>
-    {% block body %}{% endblock %}
+{% extends "main.html" %}
+{% block name_list %}
+    <span class="fs-5 fw-semibold">Результаты</span>
+{% endblock %}
+{% block condition %}
+    {% for task in tasks %}
+        {% if task.id==id %}
+            {% set  ns.account_id=task.id %}
+            {% set  ns.index=tasks.index(task) %}
+            <a href="{{ task.id }}" class="list-group-item list-group-item-action py-3 lh-sm"
+               aria-current="true" style="background: #0a53be">
+        {% else %}
+            <a href="{{ task.id }}" class="list-group-item list-group-item-action py-3 lh-sm">
+        {% endif %}
+    <div class="d-flex w-100 align-items-center justify-content-between">
+        <strong class="mb-1">{{ task.name }}</strong>
+        <small>{{ task.date }}</small>
+    </div>
+    <div class="col-10 mb-1 small">{{ task.description }}</div>
+    </a>
 
+    {% endfor %}
+{% endblock %}
+{% block body_2 %}
+    <form method="POST" enctype="multipart/form-data">
+        <label for="images" class="drop-container" id="dropcontainer">
+            <span class="drop-title">Drop files</span>
+            or
+            <input type="file" name="file" id="images" accept=".npy" required>
+        </label>
 
+        <button class="upload-button" type="submit">Анализировать</button>
+    </form>
 
+    <!--  <button class="upload-button" onclick="uploadFile()">Upload</button>-->
 
-</main>
-<script src="/static/sidebars.js"></script>
-</body>
-</html>
+    <script>
+        const dropContainer = document.getElementById("dropcontainer");
+        const fileInput = document.getElementById("images");
+
+        dropContainer.addEventListener("dragover", e => {
+            // prevent default to allow drop
+            e.preventDefault();
+        }, false);
+
+        dropContainer.addEventListener("dragenter", () => {
+            dropContainer.classList.add("drag-active");
+        });
+
+        dropContainer.addEventListener("dragleave", () => {
+            dropContainer.classList.remove("drag-active");
+        });
+
+        dropContainer.addEventListener("drop", e => {
+            e.preventDefault();
+            dropContainer.classList.remove("drag-active");
+            fileInput.files = e.dataTransfer.files;
+        });
+
+        function uploadFile() {
+            const selectedFile = fileInput.files[0];
+            const formData = new FormData();
+            formData.append("file", selectedFile);
+
+            // fetch("/upload", {
+            //   method: "POST",
+            //   body: formData
+            // })
+            // .then(response => {
+            //   console.log("File uploaded successfully");
+            // })
+            // .catch(error => {
+            //   console.error("Error uploading file:", error);
+            // });
+        }
+    </script>
+{% endblock %}

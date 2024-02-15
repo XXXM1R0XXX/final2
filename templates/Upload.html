@@ -7,20 +7,11 @@
         }
 
         body {
-            {#display: flex;#}
-            {#justify-content: center;#}
-            {#align-items: center;#}
-            {#flex-direction: column;#}
-            {#background-size: auto;#}
-            {#background-position: center;#}
-            {#min-height: 900px;#}
-            {#min-width: 480px;#}
+        {#display: flex;#}{#justify-content: center;#}{#align-items: center;#}{#flex-direction: column;#}{#background-size: auto;#}{#background-position: center;#}{#min-height: 900px;#}{#min-width: 480px;#}
         }
 
         .drop-container {
-            {#margin-bottom: auto;#}
-            {#width:500px;#}
-            position: relative;
+        {#margin-bottom: auto;#}{#width:500px;#} position: relative;
             display: flex;
             gap: 10px;
             flex-direction: column;
@@ -111,8 +102,31 @@
         }
     </style>
 {% endblock %}
+{% block name_list %}
+    <span class="fs-5 fw-semibold">Результаты</span>
+{% endblock %}
+
+{% block condition %}
+    {% for task in tasks %}
+        {% if task.id==id %}
+            {% set  ns.account_id=task.id %}
+            {% set  ns.index=tasks.index(task) %}
+            <a href="{{ task.id }}" class="list-group-item list-group-item-action py-3 lh-sm"
+               aria-current="true" style="background: #0a53be">
+        {% else %}
+            <a href="{{ task.id }}" class="list-group-item list-group-item-action py-3 lh-sm">
+        {% endif %}
+    <div class="d-flex w-100 align-items-center justify-content-between">
+        <strong class="mb-1">{{ task.name }}</strong>
+        <small>{{ task.date }}</small>
+    </div>
+    <div class="col-10 mb-1 small">{{ task.description }}</div>
+    </a>
+
+    {% endfor %}
+{% endblock %}
 {% block body_2 %}
-    <form method="POST"  enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data">
         <label for="images" class="drop-container" id="dropcontainer">
             <span class="drop-title">Drop files</span>
             or
