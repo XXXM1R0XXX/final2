@@ -15,14 +15,17 @@ app = Flask(__name__)
 #     # Другие задачи
 # ]
 # tasks *= 10
-def get_q(is_1):
+def get_q(is_1, acc_id=0):
     conn = sqlite3.connect('Users.db')
-    df = pd.read_sql_query(f"SELECT * FROM Queue WHERE finished={0 if is_1 else 1}", conn)
+    if is_1:
+        df = pd.read_sql_query("SELECT * FROM Queue WHERE finished=0", conn)
+    else:
+        df = pd.read_sql_query(f"SELECT * FROM Queue WHERE finished=1 AND account_id={acc_id}", conn)
 
     # Преобразование DataFrame в массив словарей
     records = df.to_dict(orient='records')
     cur = conn.cursor()
-    if(len(records) == 0):
+    if (len(records) == 0):
         return []
     for i in records:
         cur.execute(('''SELECT name,surname FROM Auth WHERE id = '{}';''').format(i["account_id"]))
@@ -49,7 +52,7 @@ models = load_models("./models/", ECGNet)
 @app.route('/', methods=['GET', 'POST'])
 def task_list():
     tasks = get_q(True)
-    return render_template('main.html',tasks=tasks,id=tasks[0]['id'])
+    return render_template('main.html', tasks=tasks, id=tasks[0]['id'])
 
 
 @app.route('/registration', methods=['GET', 'POST'])
@@ -113,7 +116,7 @@ def get_id(id):
         conn.commit()
         conn.close()
         return redirect(url_for("task_list"))
-    tasks = get_q(True)
+    tasks = get_q(True, id)
     return render_template('main.html', tasks=tasks, id=id)
 
 
@@ -128,7 +131,8 @@ def profile_id(id):
         conn = sqlite3.connect('Users.db')
         cur = conn.cursor()
         cur.execute(
-            '''INSERT INTO Queue VALUES(NULL,'{}','{}','{}',0,NULL);'''.format(id, pred, datetime.now().strftime("%d-%m-%Y")))
+            '''INSERT INTO Queue VALUES(NULL,'{}','{}','{}',0,NULL);'''.format(id, pred,
+                                                                               datetime.now().strftime("%d-%m-%Y")))
         conn.commit()
         new_id = cur.lastrowid
         cur.close()
@@ -141,19 +145,19 @@ def profile_id(id):
         p += f"/{new_id}.png"
         to_img(data, p)
         return redirect(url_for(f"profile_id", id=id))
-    tasks=get_q(False)
-    return render_template('Upload.html',tasks=tasks)
+    tasks = get_q(False, id)
+    return render_template('Upload.html', tasks=tasks)
 
 
 @app.route('/<int:account_id>/<int:id>', methods=['GET', 'POST'])
 def profile_account_id(account_id, id):
-    tasks = get_q(False)
+    tasks = get_q(False, account_id)
     conn = sqlite3.connect('Users.db')
     cur = conn.cursor()
     cur.execute(('''SELECT conclusion FROM Queue WHERE id = '{}';''').format(id))
-    stroka=cur.fetchone()[0];
+    stroka = cur.fetchone()[0];
     print(stroka)
-    return render_template('Upload.html', tasks=tasks,id=id,stroka=stroka)
+    return render_template('profile.html', tasks=tasks, id=id, stroka=stroka)
 
 
 if __name__ == '__main__':

@@ -9,7 +9,7 @@
             <div class="py-5 text-center">
                 <img class="d-block mx-auto mb-4" src="../static/assets/brand/logo.jpg" alt="" width="100"
                      height="100">
-                <h2>Registration</h2>
+                <h2>Регистрация</h2>
                 <p class="lead">Регистрируясь на этом сайте в соглашаетесь с анализом ваших данных ИИ</p>
             </div>
 
@@ -20,18 +20,18 @@
                     <div class="row g-3">
 
                         <div class="col-sm-6">
-                            <label for="firstName" class="form-label">First name</label>
+                            <label for="firstName" class="form-label">Имя</label>
                             <input type="text" class="form-control" id="firstName" placeholder="" name="firstName" value="" required>
                             <div class="invalid-feedback">
-                                Valid first name is required.
+                                Некорректное имя.
                             </div>
                         </div>
 
                         <div class="col-sm-6">
-                            <label for="lastName" class="form-label">Last name</label>
+                            <label for="lastName" class="form-label">Фамилия</label>
                             <input type="text" class="form-control" id="lastName" placeholder="" name="lastName" value="" required>
                             <div class="invalid-feedback">
-                                Valid last name is required.
+                                Некорректная фамилия.
                             </div>
                         </div>
 
@@ -57,12 +57,12 @@
                         </div>
 
                         <div class="col-12">
-                            <label for="password" class="form-label">Password</label>
+                            <label for="password" class="form-label">Пароль</label>
                             <div class="input-group has-validation">
-                                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password"
+                                <input type="password" class="form-control" id="floatingPassword" placeholder="Пароль" name="password"
                                        required>
                                 <div class="invalid-feedback">
-                                    Please enter your password
+                                    Введите пароль.
                                 </div>
                             </div>
                         </div>
@@ -73,15 +73,14 @@
 
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="save-info" name="checkbox">
-                        <label class="form-check-label" for="save-info">Are you Doctor?</label>
+                        <label class="form-check-label" for="save-info">Вы доктор?</label>
                     </div>
 
                     <hr class="my-4">
 
-                    <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
-                    <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="/login"
-                                                                                            class="fw-bold text-body"><u>Login
-                        here</u></a></p>
+                    <button class="w-100 btn btn-primary btn-lg" type="submit">Зарегистрироваться</button>
+                    <p class="text-center text-muted mt-5 mb-0">Уже есть аккаунт? <a href="/login"
+                                                                                            class="fw-bold text-body"><u>Войти</u></a></p>
                 </form>
             </div>
         </main>
