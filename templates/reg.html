@@ -1,0 +1,105 @@
+{% extends "sample.html" %}
+{% block title %}Регистрация{% endblock %}
+{% block style %}
+    <link href="/static/checkout.css" rel="stylesheet">{% endblock %}
+{% block body_class %}class="bg-body-tertiary"{% endblock %}
+{% block body %}
+    <div class="container">
+        <main>
+            <div class="py-5 text-center">
+                <img class="d-block mx-auto mb-4" src="../static/assets/brand/bootstrap-logo.svg" alt="" width="72"
+                     height="57">
+                <h2>Checkout form</h2>
+                <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required
+                    form
+                    group has a validation state that can be triggered by attempting to submit the form without
+                    completing
+                    it.</p>
+            </div>
+
+            <div class="row g-5">
+
+                <h4 class="mb-3">Billing address</h4>
+                <form method="POST" class="needs-validation" novalidate>
+                    <div class="row g-3">
+
+                        <div class="col-sm-6">
+                            <label for="firstName" class="form-label">First name</label>
+                            <input type="text" class="form-control" id="firstName" placeholder="" name="firstName" value="" required>
+                            <div class="invalid-feedback">
+                                Valid first name is required.
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label for="lastName" class="form-label">Last name</label>
+                            <input type="text" class="form-control" id="lastName" placeholder="" name="lastName" value="" required>
+                            <div class="invalid-feedback">
+                                Valid last name is required.
+                            </div>
+                        </div>
+
+{#                        <div class="col-12">#}
+{#                            <label for="username" class="form-label">Username</label>#}
+{#                            <div class="input-group has-validation">#}
+{#                                <span class="input-group-text">@</span>#}
+{#                                <input type="text" class="form-control" id="username" placeholder="Username" required>#}
+{#                                <div class="invalid-feedback">#}
+{#                                    Your username is required.#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+
+                        <div class="col-12">
+                            <label for="email" class="form-label">Email</label>
+                            <div class="input-group has-validation">
+                                <input type="email" class="form-control" id="email" placeholder="you@example.com" name="email" required>
+                                <div class="invalid-feedback">
+                                    Please enter a valid email address for shipping updates.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="input-group has-validation">
+                                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password"
+                                       required>
+                                <div class="invalid-feedback">
+                                    Please enter your password
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="save-info" name="checkbox">
+                        <label class="form-check-label" for="save-info">Are you Doctor?</label>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
+                    <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="/login"
+                                                                                            class="fw-bold text-body"><u>Login
+                        here</u></a></p>
+                </form>
+            </div>
+        </main>
+
+        <footer class="my-5 pt-5 text-body-secondary text-center text-small">
+            <p class="mb-1">&copy; 2017–2024 Company Name</p>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="#">Privacy</a></li>
+                <li class="list-inline-item"><a href="#">Terms</a></li>
+                <li class="list-inline-item"><a href="#">Support</a></li>
+            </ul>
+        </footer>
+    </div>
+{% endblock %}
+{% block script %}
+    <script src="/static/checkout.js"></script>
+{% endblock %}
