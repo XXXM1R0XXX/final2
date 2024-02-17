@@ -10,11 +10,6 @@
 * [```inference_example.ipynb```](https://github.com/XXXM1R0XXX/final2/blob/dcd84f38b0393c7fe9dec1a7e1064d3fa53e2e5a/inference_example.ipynb "перейти в файл") - пример инференса модели
 * [```training_example.ipynb```](https://github.com/XXXM1R0XXX/final2/blob/dcd84f38b0393c7fe9dec1a7e1064d3fa53e2e5a/training_example.ipynb "перейти в файл") - пример обучения модели
 
--Загрузить и распаковать zip архив wget http://site.m1r0.webtm.ru:8080/s/ex6dKfgaEqLRJpg/download/models.zip
--установить poetry curl -sSL https://install.python-poetry.org | python3 -
--poetry install
--unzip models.zip
--poetry run python app.py
 <h3>Инструкция по запускy веб-интерфейса</h3>
 
 * перейти в папку web
