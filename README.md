@@ -5,9 +5,10 @@
 
 <h3>Структура репозитория</h3>
 
-* [```web```]("https://github.com/XXXM1R0XXX/final2/tree/dcd84f38b0393c7fe9dec1a7e1064d3fa53e2e5a/web" "перейти в папку") - папка с кодом веб-сайта
-* [```inference_example.ipynb```]("https://github.com/XXXM1R0XXX/final2/blob/dcd84f38b0393c7fe9dec1a7e1064d3fa53e2e5a/inference_example.ipynb" "перейти в файл") - пример инференса модели
-* [```training_example.ipynb```]("https://github.com/XXXM1R0XXX/final2/blob/dcd84f38b0393c7fe9dec1a7e1064d3fa53e2e5a/training_example.ipynb" "перейти в файл") - пример обучения модели
+* [```process```](https://github.com/XXXM1R0XXX/final2/tree/b2c27b43e21dbc5ec4dfeceb6c71d734852672b9/process "перейти в папку") - папка с кодом препроцессинга данных
+* [```web```](https://github.com/XXXM1R0XXX/final2/tree/dcd84f38b0393c7fe9dec1a7e1064d3fa53e2e5a/web "перейти в папку") - папка с кодом веб-сайта
+* [```inference_example.ipynb```](https://github.com/XXXM1R0XXX/final2/blob/dcd84f38b0393c7fe9dec1a7e1064d3fa53e2e5a/inference_example.ipynb "перейти в файл") - пример инференса модели
+* [```training_example.ipynb```](https://github.com/XXXM1R0XXX/final2/blob/dcd84f38b0393c7fe9dec1a7e1064d3fa53e2e5a/training_example.ipynb "перейти в файл") - пример обучения модели
 
 <h3>Инструкция по запускy веб-интерфейса</h3>
 <ul>
